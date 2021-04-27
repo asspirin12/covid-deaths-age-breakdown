@@ -1,0 +1,25 @@
+{
+    "id": "E7D02DBD",
+    "path": "~/R/ковид-смертность-возраст/msk.R",
+    "project_path": "msk.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1619528921708.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "61,9",
+        "scrollLine": "48"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1619529240,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1619529240338,
+    "read_only": false,
+    "read_only_alternatives": []
+}

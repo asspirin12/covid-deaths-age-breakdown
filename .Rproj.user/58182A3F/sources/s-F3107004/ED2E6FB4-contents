@@ -1,0 +1,82 @@
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(bbplot2)
+library(pracma)
+library(tidyr)
+library(stringr)
+library(tibble)
+library(readxl)
+
+all_daily <- read_delim("raw_data/all.txt", delim = "; ", col_names = FALSE)
+
+all_daily$X5 <- as.numeric(all_daily$X5)
+
+#rename columns 
+colnames(all_daily) <- c("station", "year", "month", "day", "temp")
+
+all_daily <- all_daily %>%
+  mutate(avg11 = movavg(all_daily$X5, 4015, type = "s"))
+
+#ANOMALY 
+
+cols = c("anom" = "#4BA7BC", "avg" = "#990000")
+
+anom <- read_csv("raw_data/anom_climate.csv")
+
+anom <- anom %>% 
+  mutate(avg = movavg(anom, 11, type = "s"))
+
+anom_chart <- ggplot() +
+  geom_line(anom,
+            mapping = aes(x = year, y = anom, color = "anom"), 
+            size = 0.5) +
+  geom_line(subset(anom, x >= 1911), 
+            mapping = aes(x = year, y = avg, color = "avg"),
+            size = 1) +
+  bbc_style() +
+  labs(
+    title = "Как менялась температура воздуха\nу поверхности Земли в России"
+  ) +
+  theme(
+    legend.position = "top"
+  ) +
+  scale_color_manual(
+    values = cols, 
+    breaks = c("anom", "avg"),
+    labels = c("Отклонения средних годовых температур\nот средней температуры\nза 1981-2010 годы",
+               "Средние температуры,\nрассчитанные за\nпредыдущие 11 лет")
+  ) +
+  geom_hline(yintercept = 0, size = 0.5, color = "#333333") +
+  scale_y_continuous(
+    breaks = c(-2, -1, 0, 1, 2),
+    labels = c("-2", "-1", "", "+1", "+2"),
+    limits = c(-2.7, 2)
+  ) +
+  geom_label(aes(x = 1902, y = 1, label = "Средняя температура\nза 1981-2010 годы"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             colour = "#555555", 
+             fill = "white", 
+             label.size = NA, 
+             family="Helvetica", 
+             size = 6) +
+  geom_segment(aes(x = 1910, y = .4, xend = 1910, yend = .05), 
+               colour = "#555555",
+               linetype = "dashed",
+               size=0.5) +
+  theme(axis.ticks.x = element_line(colour = "#333333"), 
+        axis.ticks.length =  unit(0.26, "cm")) +
+  geom_hline(yintercept = -2.7, size = 1, color = "#333333")
+  
+finalise_plot(
+  anom_chart,
+  save_filepath = "avg_all_russia-nc.png",
+  width_pixels = 640,
+  source_name = "Источник: Институт глобального климата и экологии им. Ю. А. Израэля"
+)
+
+library(grDevices)
+cairo_pdf("anom.pdf", family = "Arial", width = 670/72, height = 480/72)
+print(anom_chart)
+dev.off()

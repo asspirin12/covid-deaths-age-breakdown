@@ -1,0 +1,25 @@
+{
+    "id": "DE18D938",
+    "path": "~/R/ковид-смертность-возраст/chart_chechnya.R",
+    "project_path": "chart_chechnya.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1619528280517.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "59,9",
+        "scrollLine": "46"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1619528755,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1619528755908,
+    "read_only": false,
+    "read_only_alternatives": []
+}
